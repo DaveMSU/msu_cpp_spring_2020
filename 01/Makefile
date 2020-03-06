@@ -2,7 +2,11 @@
 CC=g++
 CFLAG = -c
 
-all:	Allocator.o test_1.o test_2.o test_3.o test_4.o
+all: compile
+
+test: compile test_1 test_2 test_3 test_4
+
+compile:Allocator.o test_1.o test_2.o test_3.o test_4.o
 	$(CC) -o tmp_file Allocator.o test_1.o
 	$(CC) -o tmp_file Allocator.o test_2.o
 	$(CC) -o tmp_file Allocator.o test_3.o
@@ -11,22 +15,22 @@ all:	Allocator.o test_1.o test_2.o test_3.o test_4.o
 
 test_1: Allocator.o test_1.o
 	@$(CC) -o home_work Allocator.o test_1.o
-	@echo "test_1:\n"
+	@echo "------------\ntest_1:\n"
 	@./home_work
 
 test_2:	Allocator.o test_2.o
 	@$(CC) -o home_work Allocator.o test_2.o
-	@echo "test_2:\n"
+	@echo "------------\ntest_2:\n"
 	@./home_work
 
 test_3:	Allocator.o test_3.o
 	@$(CC) -o home_work Allocator.o test_3.o
-	@echo "test_3:\n"
+	@echo "------------\ntest_3:\n"
 	@./home_work
 
 test_4:	Allocator.o test_4.o
 	@$(CC) -o home_work Allocator.o test_4.o
-	@echo "test_4:\n"
+	@echo "------------\ntest_4:\n"
 	@./home_work
 
 Allocator.o:
