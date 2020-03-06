@@ -1,4 +1,4 @@
-#include <iostream>
+#include <iostream> 
 
 char* main_ptr;
 char* cur_ptr;
@@ -10,7 +10,7 @@ void makeAllocator(size_t maxSize){
         if( maxSize > 0 )
                 main_ptr = (char*)malloc(maxSize);
         cur_ptr = main_ptr;
-        end_ptr = main_ptr + maxSize *  sizeof(char*);
+        end_ptr = main_ptr + maxSize;
 }
 
 
@@ -22,21 +22,10 @@ void reset(){
 
 char* alloc(size_t size){
 
-        cur_ptr += size*sizeof(char);
+        cur_ptr += size;
 
-        if( cur_ptr > end_ptr )
+        if( cur_ptr > end_ptr )// if size == maxSize it's still okey.
                 return nullptr;
 
-        return cur_ptr - size*sizeof(char*);
+        return cur_ptr - size;
 }
-
-
-int main(){
-
-        makeAllocator(1024);
-        char* p1 = (char*)alloc(100);
-        char* p2 = (char*)alloc(200);
-        reset();
-
-        return 0;
-}                                                                                                                                                                                                              
