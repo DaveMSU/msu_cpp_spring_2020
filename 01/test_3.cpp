@@ -1,8 +1,5 @@
 #include <iostream>
-
-void makeAllocator(size_t maxSize);
-void reset();
-char* alloc(size_t size);
+#include "Allocator.cpp"
 
 int main(){
 
@@ -19,6 +16,8 @@ int main(){
 
 	reset();
 	std::cout << "reset()" << std::endl;
+
+	freeAllocator();
 
         return 0;
 } 

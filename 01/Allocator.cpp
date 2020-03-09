@@ -1,14 +1,17 @@
 #include <iostream> 
 
-char* main_ptr;
-char* cur_ptr;
-char* end_ptr;
+static char* main_ptr;
+static char* cur_ptr;
+static char* end_ptr;
 
 void makeAllocator(size_t maxSize){
 
         main_ptr = nullptr;
-        if( maxSize > 0 )
-                main_ptr = (char*)malloc(maxSize);
+	main_ptr = (char*)malloc(maxSize);
+	if( main_ptr == nullptr ){
+		std::cout << "ERROR!\nmalloc returned NULL!" << std::endl;
+		throw std::bad_alloc();
+	}
         cur_ptr = main_ptr;
         end_ptr = main_ptr + maxSize;
 }
@@ -23,9 +26,15 @@ void reset(){
 char* alloc(size_t size){
 
         cur_ptr += size;
-
-        if( cur_ptr > end_ptr )// if size == maxSize it's still okey.
+        if( cur_ptr > end_ptr ){// if size == maxSize it's still okey.
+	
+		cur_ptr -= size;
                 return nullptr;
-
+	}
         return cur_ptr - size;
+}
+
+void freeAllocator(){
+	
+	free(main_ptr);
 }

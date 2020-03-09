@@ -1,8 +1,5 @@
 #include <iostream>
-
-void makeAllocator(size_t maxSize);
-void reset();
-char* alloc(size_t size);
+#include "Allocator.cpp"
 
 int main(){
 
@@ -34,6 +31,8 @@ int main(){
 	p1 = (char*)alloc(128);
 	std::cout << "alloc(128)" << std::endl;
 	std::cout << "p1 = " << (int*)p1 << std::endl;
+
+	freeAllocator();
 
         return 0;
 } 

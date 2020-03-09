@@ -1,9 +1,6 @@
 #include <iostream>
+#include "Allocator.cpp"
 #define char_s sizeof(char)
-
-void makeAllocator(size_t maxSize);
-void reset();
-char* alloc(size_t size);
 
 using namespace std;
 
@@ -49,6 +46,8 @@ int main(){
 		cout << "line " << i;	
 		cout << ":  adress = " << (int*)(p + i) << " - " << (int)*(p + i) << endl;
 	}
+
+	freeAllocator();
 
 	return 0;
 }
