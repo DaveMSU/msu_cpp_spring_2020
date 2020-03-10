@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Allocator.cpp"
+#include "Allocator.h"
 #define char_s sizeof(char)
 
 using namespace std;

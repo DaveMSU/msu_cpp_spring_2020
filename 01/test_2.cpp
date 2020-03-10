@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Allocator.cpp"
+#include "Allocator.h"
 
 int main(){
 
