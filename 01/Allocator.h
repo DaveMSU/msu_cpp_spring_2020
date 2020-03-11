@@ -1,39 +1,13 @@
-#include <iostream> 
+#ifndef ALLOC
+#define ALLOC
 
-static char* main_ptr;
-static char* cur_ptr;
-static char* end_ptr;
+extern char* main_ptr;
+extern char* cur_ptr;
+extern char* end_ptr;
 
-void makeAllocator(size_t maxSize){
+void makeAllocator(size_t maxSize);
+void reset();
+char* alloc(size_t size);
+void freeAllocator();
 
-        main_ptr = nullptr;
-	main_ptr = (char*)malloc(maxSize);
-	if( main_ptr == nullptr )
-		throw std::bad_alloc();
-
-        cur_ptr = main_ptr;
-        end_ptr = main_ptr + maxSize;
-}
-
-
-void reset(){
-
-        cur_ptr = main_ptr;
-}
-
-
-char* alloc(size_t size){
-
-        cur_ptr += size;
-        if( cur_ptr > end_ptr ){// if size == maxSize it's still okey.
-	
-		cur_ptr -= size;
-                return nullptr;
-	}
-        return cur_ptr - size;
-}
-
-void freeAllocator(){
-	
-	free(main_ptr);
-}
+#endif
