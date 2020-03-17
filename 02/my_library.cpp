@@ -1,8 +1,8 @@
 #include <iostream>
 #include "my_library.h"
 
-FunctionNon OnBegin = [](void){};
-FunctionNon OnEnd = [](void){};
+FunctionNon OnBegin = [](){};
+FunctionNon OnEnd = [](){};
 Function WordFunc = [](const char*){};
 Function NumberFunc = [](const char*){};
 
@@ -57,7 +57,7 @@ void parse( const char* text ){
 		}
 		else{
 			if( num_flag & sym_flag )
-				throw -1;
+				throw std::invalid_argument(buf);
 			else
 			if( num_flag )
 				NumberFunc(buf.c_str());

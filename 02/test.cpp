@@ -1,22 +1,26 @@
 #include <iostream>
 #include "my_library.h"
 
+int to_int( const char* str ){
+	
+	int tmp = 0;
+	while( *str++ )
+		tmp = tmp*10 + int(*(str-1)) - int('0');
+	return tmp;
+}
+
 void OnNumberFound1( const char* num ){
 
 	std::cout << "Working func: OnNumberFound!1" << std::endl;
-        std::cout << num << std::endl;
+        std::cout << to_int(num) << std::endl;
 }
 
 
 void OnNumberFound2( const char* num ){
 
 	std::cout << "Working func: OnNumberFound!2" << std::endl;
-	int tmp = 0;
-	while(*num++){
-	
-		tmp += int(*(num-1)) - int('0');
-	}
-        std::cout << num << "**2 =  " << tmp*tmp << std::endl;
+	int tmp = to_int(num);
+        std::cout << tmp << "**2 = " << tmp*tmp << std::endl;
 }
 
 
@@ -41,7 +45,7 @@ void  OnEndFunc(){
 
 int main(){
 	
-       	register_on_begin_callback(OnBeginFunc);
+	register_on_begin_callback(OnBeginFunc);
 	register_on_end_callback(OnEndFunc);
 
 	char line[] = "Hello dude, my name is David. 123 + 321 equalle 444	!!!";
