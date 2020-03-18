@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cctype> // для isspace().
-#include <functional>
 #include "my_library.h"
 
 OnBeginEnd BeginFunc = [](){};
