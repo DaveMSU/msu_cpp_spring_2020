@@ -38,7 +38,8 @@ void  OnEndFunc(){
 int main(){
 	
 	register_on_begin_callback(OnBeginFunc);
-	register_on_end_callback(OnEndFunc);
+	//register_on_end_callback(OnEndFunc);
+	register_on_end_callback([=](){ std::cout << "Stop corona!" << std::endl; });
 
 	char line[] = "Hello dude, my name is David. 123 + 321 equalle 444	!!!";
 	std::cout << "input: " << line << std::endl;
