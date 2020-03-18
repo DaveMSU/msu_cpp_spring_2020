@@ -1,25 +1,17 @@
 #include <iostream>
 #include "my_library.h"
 
-int to_int( const char* str ){
-	
-	int tmp = 0;
-	while( *str++ )
-		tmp = tmp*10 + int(*(str-1)) - int('0');
-	return tmp;
-}
-
-void OnNumberFound1( const char* num ){
+void OnNumberFound1( int num ){
 
 	std::cout << "Working func: OnNumberFound!1" << std::endl;
-        std::cout << to_int(num) << std::endl;
+        std::cout << num << std::endl;
 }
 
 
-void OnNumberFound2( const char* num ){
+void OnNumberFound2( int num ){
 
 	std::cout << "Working func: OnNumberFound!2" << std::endl;
-	int tmp = to_int(num);
+	int tmp = num;
         std::cout << tmp << "**2 = " << tmp*tmp << std::endl;
 }
 
