@@ -12,7 +12,8 @@ void register_on_end_callback( OnBeginEnd callback );
 void register_on_number_callback( OnNumber callback );
 void register_on_word_callback( OnWord callback );
 
-int to_int( const std::string& );
-void parse( const char* text );
+
+void check_flags( const bool&, const bool&, const std::string&);
+void parse( const char*);
 
 #endif

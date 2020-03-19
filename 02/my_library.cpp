@@ -1,6 +1,6 @@
-#include <sstream>
 #include <iostream>
-#include <regex> 
+#include <cctype> // для isspace().
+#include <cstdlib>
 #include "my_library.h"
 
 OnBeginEnd BeginFunc = [](){};
@@ -25,34 +25,42 @@ void register_on_word_callback( OnWord callback ){
 	WordFunc = callback;
 }
 
-int to_int( const std::string& str ){
+void check_flags( const bool& num_flag, const bool& sym_flag, const std::string& buf ){
 
-	int tmp = 0;
-	for( int i = 0; i < str.size(); ++i )
-		tmp = tmp*10 + int(str[i]) - int('0');
-	return tmp;
+	if( num_flag && sym_flag ) throw std::invalid_argument(buf);
+	else if( num_flag ) NumberFunc( atoi(buf.c_str()) );
+	else if( sym_flag ) WordFunc(buf.c_str());
 }
 
 void parse( const char* text ){
 
 	BeginFunc();
 
-	bool num_flag, sym_flag;
-	std::string str;
+	bool num_flag = false;
+	bool sym_flag = false;
+	std::string buf = "";
+				
+	do{
+		if( !isspace(*text) ){
 
-	std::stringstream stream(text);
-	std::regex isNum("[0-9]");
-	std::regex isSym("[a-z|A-Z]");
+			if( *text >= '0' && *text <= '9' ){
 
-	while( stream >> str ){
-	
-		num_flag = std::regex_search( str, isNum );
-		sym_flag = std::regex_search( str, isSym );
-
-		if( num_flag && sym_flag ) throw std::invalid_argument(str);
-		if( num_flag ) NumberFunc( to_int(str) );
-		if( sym_flag ) WordFunc( str.c_str() );
+				if( !num_flag )
+					num_flag = true;
+			}
+			else
+				if( !sym_flag )
+					sym_flag = true;
+			buf += *text;
+		}
+		else{
+			check_flags( num_flag, sym_flag, buf );
+			num_flag = false;
+			sym_flag = false;			
+			buf = "";
+		}
 	}
-	
+	while(*text++);
+
 	EndFunc();
 }
