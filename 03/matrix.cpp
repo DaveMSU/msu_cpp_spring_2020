@@ -23,6 +23,13 @@ value_type& cont_data::operator[]( int index ){
 	return tmp_data[index];
 }	
 
+const value_type& cont_data::operator[]( int index ) const {
+	
+	if( index >= block_size )
+		throw std::out_of_range("");
+	return tmp_data[index];
+}	
+
 value_type& cont_data::get_elem( int index ){
 
 	return data[index];
@@ -51,13 +58,13 @@ cont_data::~cont_data(){
 //-----------------------------Matrix:----------------------------------
 matrix::matrix( const int& r, const int& c ) : num_rows(r), num_cols(c), memory_line(c,r) {}
 
-const cont_data& matrix::operator[]( int index ) const {
+cont_data& matrix::operator[]( int index ){
 
 	memory_line.set_tmp(index);
 	return memory_line;
 }
 
-cont_data& matrix::operator[]( int index ){
+const cont_data& matrix::operator[]( int index ) const {
 
 	memory_line.set_tmp(index);
 	return memory_line;
@@ -71,7 +78,11 @@ matrix& matrix::operator*=( double value ){
 	return *this;
 }
 
-bool matrix::operator==( const matrix& right ){
+bool matrix::operator==( const matrix& right ) const {
+
+	if( right.get_rows() != num_rows 
+			|| right.get_columns() != num_cols )
+		return false;
 
 	for( int i = 0; i < num_rows; ++i )
 		for( int j = 0; j < num_cols; ++j )
@@ -80,14 +91,17 @@ bool matrix::operator==( const matrix& right ){
 	return true;
 }
 
+bool matrix::operator!=( const matrix& right ) const {
 
+	return ~(*this==right);
+}
 
-int matrix::get_rows(){
+int matrix::get_rows() const {
 	
 	return num_rows;
 }
 
-int matrix::get_columns(){
+int matrix::get_columns() const {
 
 	return num_cols;
 }

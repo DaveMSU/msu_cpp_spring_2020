@@ -5,7 +5,7 @@ all: compile
 
 test: matrix.o test.o
 	$(CC) -o hw matrix.o test.o
-	@./hw
+	@valgrind ./hw
 
 compile: matrix.o test.o
 	$(CC) -o tmp_file matrix.o test.o
