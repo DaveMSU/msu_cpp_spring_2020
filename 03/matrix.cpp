@@ -3,14 +3,18 @@
 #include "matrix.h"
 
 //----------------------------CONT_DATA:--------------------------------
-cont_data::cont_data(){}
+cont_data::cont_data(){
+
+	std::cout << "Я в Конструкторе!" << std::endl;
+}
 
 cont_data::cont_data( const size_t& size , const int& amount ) : block_size(size), blocks(amount){
 
+	std::cout << "Я в конструкторе!" << std::endl;
 	data = new value_type[block_size * blocks];
 }
 
-void cont_data::set_tmp( int step ){
+void cont_data::set_tmp( int step ) const {
 
 	if( step >= blocks )
 	       throw std::out_of_range("");	
@@ -19,7 +23,7 @@ void cont_data::set_tmp( int step ){
 //	std::cout << "tmp  point: " << tmp_data << std::endl;
 }
 
-value_type cont_data::operator[]( const int& index ){
+value_type& cont_data::operator[]( int index ){
 	
 	if( index >= block_size )
 		throw std::out_of_range("");
@@ -44,7 +48,7 @@ void cont_data::print(){
 cont_data::~cont_data(){
 
 	std::cout << "Я в деструкторе!" << std::endl;
-	delete data;
+	delete [] data;
 }
 
 
@@ -60,10 +64,16 @@ matrix::matrix( const int& r, const int& c ){
 	//memory_line( num_cols, num_rows );
 }
 
-cont_data matrix::operator[]( const int& index ){
+const cont_data& matrix::operator[]( const int& index ) const {
 
 	memory_line.set_tmp(index);
-	return  memory_line;
+	return memory_line;
+}
+
+cont_data& matrix::operator[]( int index ){
+
+	memory_line.set_tmp(index);
+	return memory_line;
 }
 
 void matrix::print(){

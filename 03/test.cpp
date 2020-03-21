@@ -5,6 +5,7 @@ int main(){
 
 	matrix A(3,5);
 
+	A[0][1] = 2;
 	for( int i = 0; i < 3; ++i )
 		for( int j = 0; j < 5; ++j )
 			std::cout << "i: " << i << ", j: " << j << " = " << A[i][j] << std::endl;
