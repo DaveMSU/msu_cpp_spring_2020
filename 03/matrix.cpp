@@ -3,23 +3,23 @@
 #include "matrix.h"
 
 //----------------------------CONT_DATA:--------------------------------
-Cont_data::Cont_data( size_t size , value_type* ptr ) : block_size(size), data(ptr){}
+ContData::ContData( size_t size , value_type* ptr ) : block_size(size), data(ptr){}
 
-value_type& Cont_data::operator[]( size_t index ){
+value_type& ContData::operator[]( size_t index ){
 	
 	if( index >= block_size )
 		throw std::out_of_range("");
 	return data[index];
 }	
 
-const value_type& Cont_data::operator[]( size_t index ) const {
+const value_type& ContData::operator[]( size_t index ) const {
 	
 	if( index >= block_size )
 		throw std::out_of_range("");
 	return data[index];
 }	
 
-Cont_data::~Cont_data(){}
+ContData::~ContData(){}
 
 //-----------------------------Matrix:----------------------------------
 Matrix::Matrix( const size_t r, const size_t c ) : num_rows(r), num_cols(c){
@@ -27,18 +27,18 @@ Matrix::Matrix( const size_t r, const size_t c ) : num_rows(r), num_cols(c){
 	data = new value_type[r*c];
 }
 
-Cont_data Matrix::operator[]( size_t index ){
+ContData Matrix::operator[]( size_t index ){
 
 	if( index >= num_rows )
 		throw std::out_of_range("");
-	return Cont_data( num_cols, data + index*num_cols );
+	return ContData( num_cols, data + index*num_cols );
 }
 
-const Cont_data Matrix::operator[]( size_t index ) const {
+const ContData Matrix::operator[]( size_t index ) const {
 
 	if( index >= num_rows )
 		throw std::out_of_range("");
-	return Cont_data( num_cols, data + index*num_cols );
+	return ContData( num_cols, data + index*num_cols );
 }
 
 Matrix& Matrix::operator*=( double value ){

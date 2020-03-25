@@ -2,17 +2,17 @@
 
 typedef double value_type;
 
-class Cont_data{
+class ContData{
 	
 
 	size_t block_size;
 	size_t blocks;
 	value_type* data;
 public:
-	Cont_data( size_t, value_type* );
+	ContData( size_t, value_type* );
 	value_type& operator[]( size_t );
 	const value_type& operator[]( size_t ) const;
-	~Cont_data();
+	~ContData();
 };
 
 class Matrix{
@@ -22,8 +22,8 @@ class Matrix{
 	value_type* data;
 public:
 	Matrix( const size_t r, const size_t c );
-	Cont_data operator[]( size_t );
-	const Cont_data operator[]( size_t ) const;
+	ContData operator[]( size_t );
+	const ContData operator[]( size_t ) const;
 	Matrix& operator*=( double );
 	bool operator==( const Matrix& tmp_matrix ) const;
 	bool operator!=( const Matrix& tmp_matrix ) const;
