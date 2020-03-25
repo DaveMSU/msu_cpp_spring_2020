@@ -4,7 +4,7 @@
 #define columns_number 6
 #define rows_number 4
 
-void fill_matrix( matrix& A, 
+void fill_matrix( Matrix& A, 
 		  int rows = rows_number, 
 		  int columns = columns_number  ){
 
@@ -17,7 +17,7 @@ int main(){
 
 	std::cout << std::endl;
 
-	matrix A( rows_number, columns_number );
+	Matrix A( rows_number, columns_number );
 	std::cout << "Создали матрицу A!" << std::endl;
 	std::cout << "Переписываем матрицу: A[i][j] = i*j" << std::endl;
 	fill_matrix(A);
@@ -48,7 +48,7 @@ int main(){
 	A.print();
 	std::cout << std::endl;
 
-	matrix B( rows_number, columns_number );
+	Matrix B( rows_number, columns_number );
 	std::cout << "Создали матрицу B!" << std::endl;
 	std::cout << "Переписываем матрицу: B[i][j] = i*j" << std::endl;
 	fill_matrix(B);
@@ -71,7 +71,7 @@ int main(){
 	std::cout << "Вопрос: A == B?\nОтвет: " << (A == B) << std::endl;
 	std::cout << std::endl;
 
-	matrix C( 3, 3 );
+	Matrix C( 3, 3 );
 	std::cout << "Создали матрицу C!" << std::endl;
 	std::cout << "Переписываем матрицу: C[i][j] = i*j" << std::endl;
 	fill_matrix(C, 3, 3);

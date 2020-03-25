@@ -3,39 +3,38 @@
 #include "matrix.h"
 
 //----------------------------CONT_DATA:--------------------------------
-cont_data::cont_data( size_t size , int amount ) : block_size(size), blocks(amount){
+Cont_data::Cont_data( size_t size , size_t amount ) : block_size(size), blocks(amount){
 
-	std::cout << "Я в конструкторе!" << std::endl;
 	data = new value_type[block_size * blocks];
 }
 
-void cont_data::set_tmp( int step ) const {
+void Cont_data::set_tmp( size_t step ) const {
 
 	if( step >= blocks )
 	       throw std::out_of_range("");	
         tmp_data = data + step * block_size; 
 }
 
-value_type& cont_data::operator[]( int index ){
+value_type& Cont_data::operator[]( size_t index ){
 	
 	if( index >= block_size )
 		throw std::out_of_range("");
 	return tmp_data[index];
 }	
 
-const value_type& cont_data::operator[]( int index ) const {
+const value_type& Cont_data::operator[]( size_t index ) const {
 	
 	if( index >= block_size )
 		throw std::out_of_range("");
 	return tmp_data[index];
 }	
 
-value_type& cont_data::get_elem( int index ){
+value_type& Cont_data::get_elem( size_t index ){
 
 	return data[index];
 }
 
-void cont_data::print(){
+void Cont_data::print(){
 	
 	while( tmp_data != (data + blocks * block_size) ){
 	
@@ -45,9 +44,8 @@ void cont_data::print(){
 	std::cout << std::endl;
 }
 
-cont_data::~cont_data(){
+Cont_data::~Cont_data(){
 
-	std::cout << "Я в деструкторе!" << std::endl; 
 	delete [] data;
 }
 
@@ -56,57 +54,57 @@ cont_data::~cont_data(){
 
 
 //-----------------------------Matrix:----------------------------------
-matrix::matrix( const int& r, const int& c ) : num_rows(r), num_cols(c), memory_line(c,r) {}
+Matrix::Matrix( const size_t r, const size_t c ) : num_rows(r), num_cols(c), memory_line(c,r) {}
 
-cont_data& matrix::operator[]( int index ){
-
-	memory_line.set_tmp(index);
-	return memory_line;
-}
-
-const cont_data& matrix::operator[]( int index ) const {
+Cont_data& Matrix::operator[]( size_t index ){
 
 	memory_line.set_tmp(index);
 	return memory_line;
 }
 
-matrix& matrix::operator*=( double value ){
+const Cont_data& Matrix::operator[]( size_t index ) const {
 
-	for( int i = 0; i < num_rows; ++i )
-		for( int j = 0; j < num_cols; ++j )
+	memory_line.set_tmp(index);
+	return memory_line;
+}
+
+Matrix& Matrix::operator*=( double value ){
+
+	for( size_t i = 0; i < num_rows; ++i )
+		for( size_t j = 0; j < num_cols; ++j )
 			memory_line.get_elem( i * num_cols + j ) *= value;
 	return *this;
 }
 
-bool matrix::operator==( const matrix& right ) const {
+bool Matrix::operator==( const Matrix& right ) const {
 
 	if( right.get_rows() != num_rows 
 			|| right.get_columns() != num_cols )
 		return false;
 
-	for( int i = 0; i < num_rows; ++i )
-		for( int j = 0; j < num_cols; ++j )
+	for( size_t i = 0; i < num_rows; ++i )
+		for( size_t j = 0; j < num_cols; ++j )
 			if( memory_line.get_elem( i * num_cols + j ) != right[i][j] )
 				return false;
 	return true;
 }
 
-bool matrix::operator!=( const matrix& right ) const {
+bool Matrix::operator!=( const Matrix& right ) const {
 
-	return ~(*this==right);
+	return !(*this==right);
 }
 
-int matrix::get_rows() const {
+size_t Matrix::get_rows() const {
 	
 	return num_rows;
 }
 
-int matrix::get_columns() const {
+size_t Matrix::get_columns() const {
 
 	return num_cols;
 }
 
-void matrix::print(){
+void Matrix::print(){
 
 	for( int i = 0; i < num_rows; ++i ){
 		for( int j = 0; j < num_cols; ++j )
