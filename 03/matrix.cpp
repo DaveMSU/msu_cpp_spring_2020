@@ -85,3 +85,9 @@ void Matrix::print(){
 		std::cout << "\n";
 	}
 }
+
+Matrix::~Matrix(){
+
+	if( data != nullptr )
+		delete [] data;
+}

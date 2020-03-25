@@ -30,4 +30,5 @@ public:
 	size_t get_rows() const;
 	size_t get_columns() const;
 	void print();
+	~Matrix();
 };
