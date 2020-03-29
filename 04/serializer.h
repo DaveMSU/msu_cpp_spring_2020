@@ -1,6 +1,6 @@
 #pragma onec
 
-#include <fstream>
+#include <sstream>
 #include <iostream>
 
 enum class Error
@@ -13,7 +13,7 @@ enum class Error
 class Serializer{
 
         static constexpr char Separator = ' ';
-        std::ofstream& out_;
+        std::ostream& out_;
 public:
         explicit Serializer( std::ostream& out ) : out_(out){}
         template <class T>
@@ -38,15 +38,18 @@ private:
 // Десериализатор:
 class Deserializer{
 
-	std::ifstream &in_;
+	std::istream& in_;
 public:
-	explicit Deserializer( std::istream& in );
+	explicit Deserializer( std::istream& in ) : in_(in){};
 
 	template<class T>
 	Error load( T& object );
 private:
 	template <class... ArgsT>
-	Error operator()( ArgsT... args );
+	Error operator()( ArgsT&... args );
+
+	template <class T, class... ArgsT>
+	Error process( T& t, ArgsT&... args );
 
 	template <class T>
 	Error process( T& t );

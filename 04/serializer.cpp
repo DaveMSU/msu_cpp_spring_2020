@@ -32,9 +32,9 @@ Error Serializer::process( T t ){
 Error Serializer::one_to_stream( bool var ) const {
 		
 	if( var )
-		out_ << "true" << separator;
+		out_ << "true" << Separator;
 	else
-		out_ << "false" << separator;
+		out_ << "false" << Separator;
 	return Error::NoError;
 }
 
@@ -50,22 +50,26 @@ Error Serializer::one_to_stream( uint64_t var ) const {
 }
 
 // Десериализатор:
-Deserializer::Deserializer( std::ifstream& in ) : in_(in){}
+//explicit Deserializer::Deserializer( std::ifstream& in ) : in_(in){}
 
 template <class T>
 Error Deserializer::load( T& object ){
 
-	if( one_from_stream(t) == Error::CorruptedArchive )
-            return Error::CorruptedArchive;
 	return object.Deserializer(*this);
 }
 
 template <class... ArgsT>
-Error Deserializer::operator( ArgsT... args ){
-
-
+Error Deserializer::operator()( ArgsT&... args ){
 
        	return process(args...);
+}
+
+template <class T, class... ArgsT>
+Error process(T& t, ArgsT&... args){
+
+        if( realize(t) == Error::CorruptedArchive )
+            return Error::CorruptedArchive;
+        return process(args...);
 }
 
 template <class T>
@@ -92,7 +96,7 @@ Error Deserializer::one_from_stream( bool& var ){
 	}
         else if (text == "false") {
 
-                value = false;
+                var = false;
                 return Error::NoError;
 	}
         return Error::CorruptedArchive;
