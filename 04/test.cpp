@@ -31,12 +31,12 @@ int main(){
 	Serializer serializer(stream);
 	serializer.save(x);
 
-	Data y { 0, false, 0 };
+	Data y { 1, true, 2 };
 
 	Deserializer deserializer(stream);
 	const Error err = deserializer.load(y);
 
-	assert(err == Error::NoError);
+	assert( err == Error::NoError );
 
 	assert(x.a == y.a);
 	assert(x.b == y.b);

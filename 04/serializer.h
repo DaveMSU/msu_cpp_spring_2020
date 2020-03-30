@@ -20,25 +20,25 @@ public:
 	}
 	
 	template <class... ArgsT>
-	Error operator()( ArgsT... args ){	
+	Error operator()( ArgsT&... args ){	
 		
 		return process(args...);
 	}
 
 	template <class T, class... ArgsT>
-	Error process( T t, ArgsT... args ){
+	Error process( T& t, ArgsT&... args ){
 		
 		one_to_stream(t);
 		return process(args...);
 	}
 
 	template <class T>
-	Error process( T t ){
+	Error process( T& t ){
 
 		return one_to_stream(t);
 	}
 
-	Error one_to_stream( bool var ) const {
+	Error one_to_stream( bool& var ) const {
 		
 		if( var )
 			out_ << "true" << Separator;
@@ -47,14 +47,9 @@ public:
 		return Error::NoError;
 	}
 
-	Error one_to_stream( uint64_t var ) const {
+	Error one_to_stream( uint64_t& var ) const {
 
-		while( var ){ // Попробовать без while!
-
-			out_ << char(var % 10 + '0');
-			var /= 10;
-		}
-
+		out_ << var << Separator;
 		return Error::NoError;
 	}
 };
