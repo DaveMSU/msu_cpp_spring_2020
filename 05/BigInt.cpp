@@ -8,7 +8,6 @@ BigInt::BigInt( long long a ): len(0), sign(a >= 0), ptr(nullptr) {
 		len = 1;
 		ptr = new char[1];
 		ptr[0] = 0;
-
     	} 
 	else{
 
@@ -155,10 +154,7 @@ bool BigInt::Is_mod_greater( const BigInt &b ) const {
 		return false;
 	} 
 	else 
-		if( len < b.len )
-			return false;
-		else
-			return true;
+		return (len >= b.len);
 }
 
 BigInt operator +( const BigInt& a, const BigInt &b ){
@@ -215,10 +211,7 @@ bool operator ==( const BigInt &a, const BigInt &b ){
 
 bool operator !=( const BigInt &a, const BigInt &b ){
 
-    	if (a == b)
-        	return false;
-    	else
-        	return true;
+    	return !(a == b);
 }
 
 bool operator >( const BigInt &a, const BigInt &b ){
@@ -227,48 +220,20 @@ bool operator >( const BigInt &a, const BigInt &b ){
         	return false;
  
     	BigInt diff = a - b;
-
-    	if (diff.sign)
-        	return true;
-    	else
-        	return false;
+    	return bool(diff.sign);
 }
 
 bool operator >=( const BigInt &a, const BigInt &b ){
 
-    	if( a == b )
-        	return true;
-  
-    	BigInt diff = a - b;
-
-   	if (diff.sign)
-        	return true;
-    	else
-        	return false;
+    	return (a > b) || (a == b);
 }
 
 bool operator <( const BigInt &a, const BigInt &b ){
 
-	if( a == b )
-        	return false;
- 
-	BigInt diff = b - a;
-
-	if( diff.sign )
-        	return true;
-	else
-		return false;
+	return !(a == b) && !(a > b);
 }
 
 bool operator <=( const BigInt &a, const BigInt &b ){
 
-	if( a == b )
-        	return true;
-   
-	BigInt diff = b - a;
-
-	if( diff.sign )
-        	return true;
-	else
-        	return false;
+	return !(a > b);
 }
