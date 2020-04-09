@@ -86,7 +86,7 @@ int main(){
     	checkEqual(BigInt(10) + BigInt(10), "20");
     	checkEqual(BigInt(-10) + BigInt(10), "0");
     	checkEqual(BigInt(10) + BigInt(-10), "0");
-    	checkEqual(BigInt(-10) + BigInt(-10), "-20");
+   	checkEqual(BigInt(-10) + BigInt(-10), "-20");
 
     	checkEqual(BigInt(10) - BigInt(10), "0");
 	checkEqual(BigInt(-10) - BigInt(10), "-20");

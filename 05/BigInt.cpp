@@ -32,13 +32,12 @@ BigInt::BigInt( long long a ): len(0), sign(a >= 0), ptr(nullptr) {
 
 BigInt::BigInt( const BigInt &b ): len(b.len), sign(b.sign), ptr(new char[b.len]){
 
-    	for (size_t i = 0; i < len; ++i)
-		ptr[i] = b.ptr[i];
+	std::copy(b.ptr, b.ptr + b.len, ptr);
 }
 
 BigInt::~BigInt(){
 
-    	delete[] ptr;
+	delete[] ptr;
 }
 
 BigInt& BigInt::operator=( long long a ){
@@ -49,7 +48,7 @@ BigInt& BigInt::operator=( long long a ){
     	delete[] ptr;
     	ptr = new char[len];
 
-    	for (size_t i = 0; i < len; ++i)
+    	for( size_t i = 0; i < len; ++i )
 		ptr[i] = tmp.ptr[i];
 
     	return *this;
@@ -57,20 +56,22 @@ BigInt& BigInt::operator=( long long a ){
 
 BigInt& BigInt::operator=( const BigInt& b ){
 
+	if( this == &b )
+		return *this;
+
+	char* tmp_ptr = new char[b.len];
+	delete[] ptr;
+	ptr = tmp_ptr;
     	len = b.len;
     	sign = b.sign;
-    	delete[] ptr;
-    	ptr = new char[len];
 
-    	for (size_t i = 0; i < len; ++i)
-		ptr[i] = b.ptr[i];
- 
+	std::copy(b.ptr, b.ptr + b.len, ptr);  
     	return *this;
 }
 
 BigInt BigInt::operator-() const {
 
-    	if (len == 1 && !ptr[0])
+    	if( len == 1 && !ptr[0] )
 		return *this;
   
     	BigInt result(*this);
@@ -90,6 +91,7 @@ BigInt BigInt::Add_pos_arg( const BigInt &b ) const {
         	}
 
 		BigInt res;
+		delete[] res.ptr;
 		res.len = len + diff;
 		res.sign = true;
 		res.ptr = new char[res.len];
@@ -130,6 +132,7 @@ BigInt BigInt::Add_neg_arg( const BigInt &b ) const {
         	return BigInt();
 
     	BigInt res;
+	delete[] res.ptr;
     	res.len = k;
 	res.sign = true;
 	res.ptr = new char[k];
@@ -159,7 +162,7 @@ bool BigInt::Is_mod_greater( const BigInt &b ) const {
 
 BigInt operator +( const BigInt& a, const BigInt &b ){
 
-	if (a.sign == b.sign) {
+	if( a.sign == b.sign ){
         	if (a.sign)
 			 return a.Add_pos_arg(b);
         return -a.Add_pos_arg(b);
