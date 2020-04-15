@@ -4,21 +4,29 @@
 int main(){
 
 	std::cout << "-------------------------------------" << std::endl;
+	std::cout << "test 0:" << std::endl;
+	std::string a0 = "Hello!";
+	std::string format_line  = "{1} {2}, {0} world!";
+	std::string line = format(format_line, 1, a0, 2);
+	std::cout << "format(\"" << format_line << "\", \"world\", a0{\"Hello!\"}), \"Hello!\"";
+	std::cout << " ~ \"" << line << "\""  << "\n\n";
+
+
 	std::cout << "test 1:" << std::endl;
 	bool a1 = true;
-	std::string format_line  = "{1} + {1} = {0}";
-	std::string line = format(format_line, 2, a1);
+	format_line  = "{1} + {1} = {0}";
+ 	line = format(format_line, 2, a1);
 	std::cout << "format(\"" << format_line << "\", 2, a1{true})";
 	std::cout << " ~ \"" << line << "\""  << "\n\n";
 
 
 	std::cout << "test 2:" << std::endl;
 	long long a2 = -1;
-	double b2 = 123.456789;
+	double b2 = 123.157;
 	bool c2 = false;
 	format_line  = "{2} == {0} = {1}";
 	line = format(format_line, a2, c2, b2);
-	std::cout << "format(\"" << format_line << "\", a1{-1}, c2{false}, b2{123.456789})";
+	std::cout << "format(\"" << format_line << "\", a1{-1}, c2{false}, b2{123.157})";
 	std::cout << " ~ \"" << line << "\""  << "\n\n";          	
 
 
