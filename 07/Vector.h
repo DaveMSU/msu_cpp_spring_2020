@@ -17,7 +17,7 @@ public:
 		return (pointer) malloc(sizeof(value_type) * count);
     	}
 
-	void construct( pointer ptr, value_type &&val ){
+	void construct( pointer ptr, const value_type &val ){
 
 		new (ptr) value_type(val);
     	}
@@ -154,16 +154,7 @@ public:
  	        alloc_.destruct(ptr, size_);
         	size_ = 0;
         }
-    
-    	void push_back(T&& val) {
 
-        	if (capacity_ == size_)            		
-			reserve(size_ + 1);
-
-        	alloc_.construct(ptr + size_, std::move(val));
-        	size_++;
-    	}
-    
     	void push_back( const T& val ){
 
         	if (capacity_ == size_) {
@@ -171,7 +162,7 @@ public:
             		reserve(size_ + 1);
 
         	}
-        	alloc_.construct(ptr + size_, std::move(val));
+        	alloc_.construct(ptr + size_, val);
         	size_++;
     	}
 
