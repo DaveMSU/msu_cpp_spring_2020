@@ -16,6 +16,12 @@ size_t file_len(std::ifstream &f) {
 	return len;
 }
 
+void clear_and_throw(uint64_t* buf, const std::string& f_name) {
+
+	delete [] buf;
+	throw std::ios_base::failure(f_name);
+}
+
 std::vector <std::string> input_splitting(const char* file_name) {
 	std::ifstream input(file_name, std::ios::binary);
 	if (!input){
@@ -43,15 +49,13 @@ std::vector <std::string> input_splitting(const char* file_name) {
 			t1.join();
 			t2.join();
 			std::ofstream f1(f_names[i], std::ios::binary);
-			if (!f1) {
-				delete [] buf;
-        			throw std::ios_base::failure(f_names[i]);
-    			}
+			if (!f1)
+				clear_and_throw(buf, f_names[i]);
+    			
 			std::ofstream f2(f_names[i+1], std::ios::binary);
-			if (!f2) {
-				delete [] buf;
-        			throw std::ios_base::failure(f_names[i+1]);
-    			}
+			if (!f2)
+				clear_and_throw(buf, f_names[i+1]);
+    			
 			for (size_t m = 0; m < k/2;++m) {
 				f1.write((char *)(buf + m), UINT64_SIZE);
 			}
@@ -72,24 +76,20 @@ void file_merge(std::vector <std::string> &f_names) {
 	size_t num_files = f_names.size();
 	for (size_t i = 0; i < num_files - 1; ++i) {
 		std::ifstream fr(f_names[i+1], std::ios::binary);
-		if (!fr) {
-			delete [] buf;
-	       		throw std::ios_base::failure(f_names[i+1]);
-	   	}
+		if (!fr)
+			clear_and_throw(buf, f_names[i+1]);
+		
 		size_t k = file_len(fr);
 		fr.read((char*)buf, k * UINT64_SIZE);
 		fr.close();
 
 		std::ifstream merg_f(f_names[i], std::ios::binary);
-		if (!merg_f) {
-			delete [] buf;
-	       		throw std::ios_base::failure(f_names[i]);
-	    	}
+		if (!merg_f)
+			clear_and_throw(buf, f_names[i]);
+		
 		std::ofstream res(f_names[i+1], std::ios::binary);
-		if (!res) {
-			delete [] buf;
-	        	throw std::ios_base::failure(f_names[i+1]);
-	    	}
+		if (!res)
+			clear_and_throw(buf, f_names[i+1]);
 
 		size_t pos = 0;
 		uint64_t tmp;
@@ -131,7 +131,11 @@ void file_merge(std::vector <std::string> &f_names) {
 }
 
 int main(const int argc, const char **argv) {
+
 	try {
+	        if( argc != 2 )
+	                throw std::runtime_error("Wrong number of arguments!");
+
 		auto f_names = input_splitting(argv[1]);
 		file_merge(f_names);
 		for (size_t i = 0; i < f_names.size() - 1; ++i) {
