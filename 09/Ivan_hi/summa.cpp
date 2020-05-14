@@ -16,26 +16,31 @@ int main(){
 	while( !fin.eof() ){
 
 		buf = "";
+		char str[1010];
+		fin.getline(str, 1000);
+		std::string s(str);
 
-		while( c != '\n' ){
+		for (auto c : s){
 
-			fin >> c;
-			std::cout << c;
 			if( isspace(c) ){
-			
+
 				num = atoi(buf.c_str());
 				buf = "";
 				sum += num;
-				std::cout << sum << " " << num;
+				std::cout << num << std::endl;
 			}
 			else
 				buf += c;
+
 		}
+
+		if( !buf.empty() )
+			sum += atoi(buf.c_str());
 	}
 
-	std::cout << sum;
+	std::cout << "SUM " << sum;
 
-
+	fin.close();
 	
 	return 0;
 }
